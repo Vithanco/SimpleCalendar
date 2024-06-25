@@ -143,6 +143,12 @@ public struct SimpleCalendarView: View {
     }
 
     public var body: some View {
+#if os(iOS)
+        let placement = ToolbarItemPlacement.topBarTrailing
+#endif
+        #if os(macOS)
+        let placement = ToolbarItemPlacement.automatic
+#endif
         ScrollView {
             ZStack {
                 CalendarPageView(
@@ -166,7 +172,7 @@ public struct SimpleCalendarView: View {
                 )
             }
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: placement) {
                     ZStack {
                         switch dateSelectionStyle {
                         case .datePicker:
