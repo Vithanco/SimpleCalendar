@@ -271,6 +271,7 @@ struct ScheduleView_Previews: PreviewProvider {
         let dateEvent5 = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: Date())!
         let dateEvent6 = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: Date())!
         let dateEvent7 = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: Date(timeIntervalSinceNow: 24 * (60 * 60)))!
+        let dateEvent8 = Calendar.current.startOfDay(for: Date.now)
         // swiftlint:enable force_unwrapping
         
         let events = [
@@ -330,6 +331,15 @@ struct ScheduleView_Previews: PreviewProvider {
                     id: UUID().uuidString,
                     type: ActivityType.forPreview(color: .red)
                 )
+            ),
+            CalendarEvent.forPreview(
+                id: "8",
+                startDate: dateEvent8,
+                activity: CalendarActivity.forPreview(
+                    id: UUID().uuidString,
+                    type: ActivityType.forPreview(color: .green)
+                )
+                
             )
         ]
 
