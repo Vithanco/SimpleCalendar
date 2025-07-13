@@ -50,11 +50,11 @@ struct EventView: View {
     
     private var content: some View {
         let mainColor = event.calendarActivity.activityType.color
-        let endDate = event.startDate.addingTimeInterval(event.calendarActivity.duration)
+        let endDate = event.endDate
         
         return VStack {
             VStack(alignment: .leading) {
-                if (event.calendarActivity.duration / 60) <= 30 {
+                if (event.visibleDuration / 60) <= 15 {
                     if event.columnCount > 0 {
                         HStack(alignment: .center) {
                             Text(event.calendarActivity.title)
@@ -84,7 +84,7 @@ struct EventView: View {
                                 .dynamicTypeSize(.small ... .large)
                         }
                     }
-                } else if (event.calendarActivity.duration / 60) <= 60 {
+                } else if (event.visibleDuration / 60) <= 30 {
                     Text(event.calendarActivity.title)
                         .foregroundColor(mainColor)
                         .font(.caption)

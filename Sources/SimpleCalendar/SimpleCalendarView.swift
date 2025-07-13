@@ -203,7 +203,7 @@ public struct SimpleCalendarView: View {
         let calendar = Calendar.current
         let selectedEvents = events.filter {
             calendar.isDate($0.startDate, inSameDayAs: selectedDate)
-            || calendar.isDate($0.startDate.addingTimeInterval($0.calendarActivity.duration), inSameDayAs: selectedDate)
+            || calendar.isDate($0.endDate, inSameDayAs: selectedDate)
         }
 
         calculateCoordinates(forEvents: selectedEvents)
@@ -211,30 +211,46 @@ public struct SimpleCalendarView: View {
 
     private func calculateCoordinates(forEvents events: [any CalendarEventRepresentable]) {
         var eventList: [any CalendarEventRepresentable] = []
-
         var pos: [EventPositions] = []
-
         let actualHourHeight = hourHeight + hourSpacing
         let heightPerSecond = (actualHourHeight / 60) / 60
-
+        
         // Go over each event and check if there is another event ongoing at the same time
         events.forEach { event in
             let activity = event.calendarActivity
             var event = event
-
-            let secondsSinceStartOfDay = abs(selectedDate.atHour(startHourOfDay)?.timeIntervalSince(event.startDate) ?? 0)
-
-            let frame = CGRect(x: 0, y: secondsSinceStartOfDay * heightPerSecond, width: 60, height: activity.duration * heightPerSecond)
+            
+            guard let calendarStartTime : Date = selectedDate.atHour(startHourOfDay) else { return }
+            let eventEndTime = event.endDate
+            if eventEndTime <= calendarStartTime {
+                return // not visible
+            }
+            let secondsFromCalendarStart = calendarStartTime.timeIntervalSince(event.startDate)
+            let yPosition = max(0, -secondsFromCalendarStart * heightPerSecond)
+            
+            let visibleDuration: TimeInterval
+            if event.startDate < calendarStartTime {
+                visibleDuration = eventEndTime.timeIntervalSince(calendarStartTime)
+            } else {
+                visibleDuration = activity.duration
+            }
+            event.visibleDuration = visibleDuration
+            let frame = CGRect(
+                x: 0,
+                y: yPosition,
+                width: 60,
+                height: visibleDuration * heightPerSecond
+            )
+            
             event.coordinates = frame
-
             let positionedEvents = pos.filter {
                 ($0.position.minY >= frame.origin.y && $0.position.minY < frame.maxY) ||
                 ($0.position.maxY > frame.origin.y && $0.position.maxY <= frame.maxY)
             }
-
+            
             event.column = positionedEvents.count
             event.columnCount = positionedEvents.count
-
+            
             let returnList = eventList.map {
                 var event = $0
                 if positionedEvents.contains(where: { $0.id == event.id }) {
@@ -244,7 +260,6 @@ public struct SimpleCalendarView: View {
             }
             eventList = returnList
             eventList.append(event)
-
             pos.append(EventPositions(id: event.id, sharePositionWith: positionedEvents.map { $0.id }, position: frame))
         }
 
@@ -337,7 +352,9 @@ struct ScheduleView_Previews: PreviewProvider {
                 startDate: dateEvent8,
                 activity: CalendarActivity.forPreview(
                     id: UUID().uuidString,
-                    type: ActivityType.forPreview(color: .green)
+                    title: "Full Day Event",
+                    type: ActivityType.forPreview(color: .green),
+                    duration: 60*60*24
                 )
                 
             )
@@ -348,7 +365,8 @@ struct ScheduleView_Previews: PreviewProvider {
                 SimpleCalendarView(
                     events: .constant(events),
                     selectedDate: .constant(Date()),
-                    selectionAction: .none
+                    selectionAction: .none,
+                    startHourOfDay: 8
                 )
             }
             .previewDisplayName("Light")

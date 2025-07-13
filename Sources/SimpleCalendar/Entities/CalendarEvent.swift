@@ -29,6 +29,24 @@ public protocol CalendarEventRepresentable: Equatable {
 
     /// The total amount of columns available where this event is rendered. Should only be set by Simple Calendar.
     var columnCount: Int { get set }
+    
+    /// in case the calendar view shows only a part of the total meeting, e.g. for a full day event, but the calendar shows from 8am onwards
+    var visibleDuration: Double { get set }
+}
+
+public extension CalendarEventRepresentable {
+    var endDate: Date {
+        return startDate.addingTimeInterval(calendarActivity.duration)
+    }
+    
+    var visibleDuration: Double {
+        get {
+            return calendarActivity.duration
+        }
+        set {
+            // nothing to be done
+        }
+    }
 }
 
 /// This is the default model for an event.
@@ -42,6 +60,7 @@ public struct CalendarEvent: CalendarEventRepresentable {
     public var coordinates: CGRect?
     public var column: Int = 0
     public var columnCount: Int = 0
+    public var visibleDuration: Double = 0.0
 
     /// The CalendarEvent initialiser
     /// - Parameters:
