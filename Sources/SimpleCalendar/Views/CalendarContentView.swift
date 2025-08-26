@@ -29,11 +29,9 @@ struct CalendarContentView: View {
     }
 }
 
-struct CalendarContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        CalendarContentView(
-            events: .constant([]),
-            selectionAction: .none
-        )
-    }
+#Preview {
+    CalendarContentView(
+        events: .constant([]),
+        selectionAction: .none
+    )
 }

@@ -147,41 +147,62 @@ struct EventView: View {
     }
 }
 
-struct EventView_Previews: PreviewProvider {
-    static var previews: some View {
-        let activity15min = CalendarActivity.forPreview(duration: 60 * 15)
-        let activity30min = CalendarActivity.forPreview(duration: 60 * 30)
-        let activity60min = CalendarActivity.forPreview(duration: 60 * 60)
-        
-        let event15 = CalendarEvent.forPreview(activity: activity15min)
-        let event30 = CalendarEvent.forPreview(activity: activity30min)
-        let event60 = CalendarEvent.forPreview(activity: activity60min)
-        
-        Group {
-            EventView(event: event15, selectionAction: .none)
-                .previewDisplayName("Normal 15min")
-            EventView(event: event15, selectionAction: .none)
-                .environment(\.sizeCategory, .extraExtraExtraLarge)
-                .previewDisplayName("XXXL 15min")
-            EventView(event: event15, selectionAction: .none)
-                .environment(\.sizeCategory, .extraSmall)
-                .previewDisplayName("XS 15min")
-            EventView(event: event30, selectionAction: .none)
-                .previewDisplayName("Normal 30min")
-            EventView(event: event30, selectionAction: .none)
-                .environment(\.sizeCategory, .extraExtraExtraLarge)
-                .previewDisplayName("XXXL 30min")
-            EventView(event: event30, selectionAction: .none)
-                .environment(\.sizeCategory, .extraSmall)
-                .previewDisplayName("XS 30min")
-            EventView(event: event60, selectionAction: .none)
-                .previewDisplayName("Normal 60min")
-            EventView(event: event60, selectionAction: .none)
-                .environment(\.sizeCategory, .extraExtraExtraLarge)
-                .previewDisplayName("XXXL 60min")
-            EventView(event: event60, selectionAction: .none)
-                .environment(\.sizeCategory, .extraSmall)
-                .previewDisplayName("XS 60min")
-        }
-    }
+#Preview("Normal 15min") {
+    let activity15min = CalendarActivity.forPreview(duration: 60 * 15)
+    let event15 = CalendarEvent.forPreview(activity: activity15min)
+    EventView(event: event15, selectionAction: .none)
+}
+
+#Preview("XXXL 15min") {
+    let activity15min = CalendarActivity.forPreview(duration: 60 * 15)
+    let event15 = CalendarEvent.forPreview(activity: activity15min)
+    EventView(event: event15, selectionAction: .none)
+        .environment(\.sizeCategory, .extraExtraExtraLarge)
+}
+
+#Preview("XS 15min") {
+    let activity15min = CalendarActivity.forPreview(duration: 60 * 15)
+    let event15 = CalendarEvent.forPreview(activity: activity15min)
+    EventView(event: event15, selectionAction: .none)
+        .environment(\.sizeCategory, .extraSmall)
+}
+
+#Preview("Normal 30min") {
+    let activity30min = CalendarActivity.forPreview(duration: 60 * 30)
+    let event30 = CalendarEvent.forPreview(activity: activity30min)
+    EventView(event: event30, selectionAction: .none)
+}
+
+#Preview("XXXL 30min") {
+    let activity30min = CalendarActivity.forPreview(duration: 60 * 30)
+    let event30 = CalendarEvent.forPreview(activity: activity30min)
+    EventView(event: event30, selectionAction: .none)
+        .environment(\.sizeCategory, .extraExtraExtraLarge)
+}
+
+#Preview("XS 30min") {
+    let activity30min = CalendarActivity.forPreview(duration: 60 * 30)
+    let event30 = CalendarEvent.forPreview(activity: activity30min)
+    EventView(event: event30, selectionAction: .none)
+        .environment(\.sizeCategory, .extraSmall)
+}
+
+#Preview("Normal 60min") {
+    let activity60min = CalendarActivity.forPreview(duration: 60 * 60)
+    let event60 = CalendarEvent.forPreview(activity: activity60min)
+    EventView(event: event60, selectionAction: .none)
+}
+
+#Preview("XXXL 60min") {
+    let activity60min = CalendarActivity.forPreview(duration: 60 * 60)
+    let event60 = CalendarEvent.forPreview(activity: activity60min)
+    EventView(event: event60, selectionAction: .none)
+        .environment(\.sizeCategory, .extraExtraExtraLarge)
+}
+
+#Preview("XS 60min") {
+    let activity60min = CalendarActivity.forPreview(duration: 60 * 60)
+    let event60 = CalendarEvent.forPreview(activity: activity60min)
+    EventView(event: event60, selectionAction: .none)
+        .environment(\.sizeCategory, .extraSmall)
 }

@@ -42,21 +42,19 @@ struct CalendarTimelineView: View {
     }
 }
 
-struct CalendarTimelineView_Previews: PreviewProvider {
-    static var previews: some View {
-        ScrollView {
-            VStack {
-                ZStack {
-                    CalendarTimelineView(
-                        startHourOfDay: 6,
-                        hourSpacing: .constant(24),
-                        hourHeight: .constant(30)
-                    )
-                }
-                .frame(height: 580)
-                Spacer()
-                Text("End of view")
+#Preview {
+    ScrollView {
+        VStack {
+            ZStack {
+                CalendarTimelineView(
+                    startHourOfDay: 6,
+                    hourSpacing: .constant(24),
+                    hourHeight: .constant(30)
+                )
             }
+            .frame(height: 580)
+            Spacer()
+            Text("End of view")
         }
     }
 }

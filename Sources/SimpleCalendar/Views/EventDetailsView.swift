@@ -54,15 +54,12 @@ struct EventDetailsView: View {
     }
 }
 
-struct EventDetailsView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            EventDetailsView(event: CalendarEvent.forPreview())
-                .previewDisplayName("Light")
-                .preferredColorScheme(.light)
-            EventDetailsView(event: CalendarEvent.forPreview())
-                .previewDisplayName("Dark")
-                .preferredColorScheme(.dark)
-        }
-    }
+#Preview("Light") {
+    EventDetailsView(event: CalendarEvent.forPreview())
+        .preferredColorScheme(.light)
+}
+
+#Preview("Dark") {
+    EventDetailsView(event: CalendarEvent.forPreview())
+        .preferredColorScheme(.dark)
 }

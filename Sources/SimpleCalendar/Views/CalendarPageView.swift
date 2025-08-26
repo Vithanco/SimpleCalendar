@@ -34,16 +34,6 @@ struct CalendarPageView: View {
 }
 
 
-struct CalendarPageView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            CalendarPageView(hours: ["12 am", "1 am", "2 am", "3 am", "4 am"], hourSpacing: .constant(24), hourHeight: .constant(30))
-//            CalendarPageView(hours: ["12 am", "1 am", "2 am", "3 am", "4 am"], hourSpacing: .constant(24), hourHeight: .constant(30))
-//                .previewDisplayName("Dynamic size XXL")
-//                .environment(\.sizeCategory, .extraExtraLarge)
-//            CalendarPageView(hours: ["12 am", "1 am", "2 am", "3 am", "4 am"], hourSpacing: .constant(24), hourHeight: .constant(30))
-//                .previewDisplayName("Dynamic size XXS")
-//                .environment(\.sizeCategory, .extraSmall)
-        }
-    }
+#Preview {
+    CalendarPageView(hours: ["12 am", "1 am", "2 am", "3 am", "4 am"], hourSpacing: .constant(24), hourHeight: .constant(30))
 }
