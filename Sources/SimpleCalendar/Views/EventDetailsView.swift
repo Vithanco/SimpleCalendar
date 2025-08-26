@@ -54,10 +54,10 @@ struct EventDetailsView: View {
     }
 }
 
-#Preview("Light") {
-    EventDetailsView(event: CalendarEvent.forPreview())
-        .preferredColorScheme(.light)
-}
+//#Preview("Light") {
+//    EventDetailsView(event: CalendarEvent.forPreview())
+//        .preferredColorScheme(.light)
+//}
 
 //#Preview("Dark") {
 //    EventDetailsView(event: CalendarEvent.forPreview())

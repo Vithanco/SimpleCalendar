@@ -275,100 +275,100 @@ public struct SimpleCalendarView: View {
         return secondsSinceStartOfDay * heightPerSecond
     }
 }
-
-#Preview("Light - Full View") {
-    // swiftlint:disable force_unwrapping
-    let dateEvent1 = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date())!
-    let dateEvent2 = Calendar.current.date(bySettingHour: 10, minute: 0, second: 0, of: Date())!
-    let dateEvent3 = Calendar.current.date(bySettingHour: 7, minute: 15, second: 0, of: Date())!
-    let dateEvent4 = Calendar.current.date(bySettingHour: 7, minute: 30, second: 0, of: Date())!
-    let dateEvent5 = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: Date())!
-    let dateEvent6 = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: Date())!
-    let dateEvent7 = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: Date(timeIntervalSinceNow: 24 * (60 * 60)))!
-    let dateEvent8 = Calendar.current.startOfDay(for: Date.now)
-    // swiftlint:enable force_unwrapping
-    
-    let events = [
-        CalendarEvent.forPreview(
-            id: "1",
-            startDate: dateEvent1,
-            activity: CalendarActivity.forPreview(
-                id: UUID().uuidString,
-                type: ActivityType.forPreview(color: .yellow)
-            )
-        ),
-        CalendarEvent.forPreview(
-            id: "2",
-            startDate: dateEvent2,
-            activity: CalendarActivity.forPreview(
-                id: UUID().uuidString,
-                type: ActivityType.forPreview(color: .blue), 
-                duration: 6 * (60 * 60)
-            )
-        ),
-        CalendarEvent.forPreview(
-            id: "3",
-            startDate: dateEvent3,
-            activity: CalendarActivity.forPreview(
-                id: UUID().uuidString,
-                type: ActivityType.forPreview(color: .gray)
-            )
-        ),
-        CalendarEvent.forPreview(
-            id: "4",
-            startDate: dateEvent4,
-            activity: CalendarActivity.forPreview(
-                id: UUID().uuidString,
-                type: ActivityType.forPreview(color: .red), 
-                duration: 45 * 60)
-        ),
-        CalendarEvent.forPreview(
-            id: "5",
-            startDate: dateEvent5,
-            activity: CalendarActivity.forPreview(
-                id: UUID().uuidString,
-                type: ActivityType.forPreview(color: .yellow)
-            )
-        ),
-        CalendarEvent.forPreview(
-            id: "6",
-            startDate: dateEvent6,
-            activity: CalendarActivity.forPreview(
-                id: UUID().uuidString,
-                type: ActivityType.forPreview(color: .purple)
-            )
-        ),
-        CalendarEvent.forPreview(
-            id: "7",
-            startDate: dateEvent7,
-            activity: CalendarActivity.forPreview(
-                id: UUID().uuidString,
-                type: ActivityType.forPreview(color: .red)
-            )
-        ),
-        CalendarEvent.forPreview(
-            id: "8",
-            startDate: dateEvent8,
-            activity: CalendarActivity.forPreview(
-                id: UUID().uuidString,
-                title: "Full Day Event",
-                type: ActivityType.forPreview(color: .green),
-                duration: 60*60*24
-            )
-            
-        )
-    ]
-
-    return NavigationStack {
-        SimpleCalendarView(
-            events: .constant(events),
-            selectedDate: .constant(Date()),
-            selectionAction: .none,
-            startHourOfDay: 8
-        )
-    }
-    .preferredColorScheme(.light)
-}
+//
+//#Preview("Light - Full View") {
+//    // swiftlint:disable force_unwrapping
+//    let dateEvent1 = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date())!
+//    let dateEvent2 = Calendar.current.date(bySettingHour: 10, minute: 0, second: 0, of: Date())!
+//    let dateEvent3 = Calendar.current.date(bySettingHour: 7, minute: 15, second: 0, of: Date())!
+//    let dateEvent4 = Calendar.current.date(bySettingHour: 7, minute: 30, second: 0, of: Date())!
+//    let dateEvent5 = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: Date())!
+//    let dateEvent6 = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: Date())!
+//    let dateEvent7 = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: Date(timeIntervalSinceNow: 24 * (60 * 60)))!
+//    let dateEvent8 = Calendar.current.startOfDay(for: Date.now)
+//    // swiftlint:enable force_unwrapping
+//    
+//    let events = [
+//        CalendarEvent.forPreview(
+//            id: "1",
+//            startDate: dateEvent1,
+//            activity: CalendarActivity.forPreview(
+//                id: UUID().uuidString,
+//                type: ActivityType.forPreview(color: .yellow)
+//            )
+//        ),
+//        CalendarEvent.forPreview(
+//            id: "2",
+//            startDate: dateEvent2,
+//            activity: CalendarActivity.forPreview(
+//                id: UUID().uuidString,
+//                type: ActivityType.forPreview(color: .blue), 
+//                duration: 6 * (60 * 60)
+//            )
+//        ),
+//        CalendarEvent.forPreview(
+//            id: "3",
+//            startDate: dateEvent3,
+//            activity: CalendarActivity.forPreview(
+//                id: UUID().uuidString,
+//                type: ActivityType.forPreview(color: .gray)
+//            )
+//        ),
+//        CalendarEvent.forPreview(
+//            id: "4",
+//            startDate: dateEvent4,
+//            activity: CalendarActivity.forPreview(
+//                id: UUID().uuidString,
+//                type: ActivityType.forPreview(color: .red), 
+//                duration: 45 * 60)
+//        ),
+//        CalendarEvent.forPreview(
+//            id: "5",
+//            startDate: dateEvent5,
+//            activity: CalendarActivity.forPreview(
+//                id: UUID().uuidString,
+//                type: ActivityType.forPreview(color: .yellow)
+//            )
+//        ),
+//        CalendarEvent.forPreview(
+//            id: "6",
+//            startDate: dateEvent6,
+//            activity: CalendarActivity.forPreview(
+//                id: UUID().uuidString,
+//                type: ActivityType.forPreview(color: .purple)
+//            )
+//        ),
+//        CalendarEvent.forPreview(
+//            id: "7",
+//            startDate: dateEvent7,
+//            activity: CalendarActivity.forPreview(
+//                id: UUID().uuidString,
+//                type: ActivityType.forPreview(color: .red)
+//            )
+//        ),
+//        CalendarEvent.forPreview(
+//            id: "8",
+//            startDate: dateEvent8,
+//            activity: CalendarActivity.forPreview(
+//                id: UUID().uuidString,
+//                title: "Full Day Event",
+//                type: ActivityType.forPreview(color: .green),
+//                duration: 60*60*24
+//            )
+//            
+//        )
+//    ]
+//
+//    return NavigationStack {
+//        SimpleCalendarView(
+//            events: .constant(events),
+//            selectedDate: .constant(Date()),
+//            selectionAction: .none,
+//            startHourOfDay: 8
+//        )
+//    }
+//    .preferredColorScheme(.light)
+//}
 
 //#Preview("Dark") {
 //    // swiftlint:disable force_unwrapping

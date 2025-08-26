@@ -147,11 +147,11 @@ struct EventView: View {
     }
 }
 //
-#Preview("Normal 15min") {
-    let activity15min = CalendarActivity.forPreview(duration: 60 * 15)
-    let event15 = CalendarEvent.forPreview(activity: activity15min)
-    EventView(event: event15, selectionAction: .none)
-}
+//#Preview("Normal 15min") {
+//    let activity15min = CalendarActivity.forPreview(duration: 60 * 15)
+//    let event15 = CalendarEvent.forPreview(activity: activity15min)
+//    EventView(event: event15, selectionAction: .none)
+//}
 //
 //#Preview("XXXL 15min") {
 //    let activity15min = CalendarActivity.forPreview(duration: 60 * 15)

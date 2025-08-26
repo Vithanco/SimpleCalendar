@@ -41,20 +41,20 @@ struct CalendarTimelineView: View {
         timelineOffset = secondsSinceStartOfDay * heightPerSecond
     }
 }
-
-#Preview("Timeline") {
-    ScrollView {
-        VStack {
-            ZStack {
-                CalendarTimelineView(
-                    startHourOfDay: 6,
-                    hourSpacing: .constant(24),
-                    hourHeight: .constant(30)
-                )
-            }
-            .frame(height: 580)
-            Spacer()
-            Text("End of view")
-        }
-    }
-}
+//
+//#Preview("Timeline") {
+//    ScrollView {
+//        VStack {
+//            ZStack {
+//                CalendarTimelineView(
+//                    startHourOfDay: 6,
+//                    hourSpacing: .constant(24),
+//                    hourHeight: .constant(30)
+//                )
+//            }
+//            .frame(height: 580)
+//            Spacer()
+//            Text("End of view")
+//        }
+//    }
+//}
