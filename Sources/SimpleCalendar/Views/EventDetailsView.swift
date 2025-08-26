@@ -59,7 +59,7 @@ struct EventDetailsView: View {
         .preferredColorScheme(.light)
 }
 
-#Preview("Dark") {
-    EventDetailsView(event: CalendarEvent.forPreview())
-        .preferredColorScheme(.dark)
-}
+//#Preview("Dark") {
+//    EventDetailsView(event: CalendarEvent.forPreview())
+//        .preferredColorScheme(.dark)
+//}
