@@ -42,7 +42,7 @@ struct CalendarTimelineView: View {
     }
 }
 
-#Preview {
+#Preview("Timeline") {
     ScrollView {
         VStack {
             ZStack {
