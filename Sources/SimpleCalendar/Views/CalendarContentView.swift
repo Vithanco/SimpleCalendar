@@ -29,7 +29,7 @@ struct CalendarContentView: View {
     }
 }
 
-#Preview {
+#Preview("ContentView") {
     CalendarContentView(
         events: .constant([]),
         selectionAction: .none

@@ -276,7 +276,7 @@ public struct SimpleCalendarView: View {
     }
 }
 
-#Preview("Light") {
+#Preview("Light - Full View") {
     // swiftlint:disable force_unwrapping
     let dateEvent1 = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date())!
     let dateEvent2 = Calendar.current.date(bySettingHour: 10, minute: 0, second: 0, of: Date())!
