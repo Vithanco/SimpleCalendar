@@ -69,6 +69,15 @@ struct ContentView: View {
                         Text("Allows the user to select a specific date.")
                     }
                 }
+                NavigationLink {
+                    UsingDragAndDrop(events: $events, selectedDate: $selectedDate)
+                } label: {
+                    VStack(alignment: .leading) {
+                        Text("Drag & Drop")
+                            .font(.headline)
+                        Text("Drag events to different time slots. Only 'Meditation' and 'Reading' events are draggable.")
+                    }
+                }
             }
             .navigationTitle("Simple Calendar")
         }
