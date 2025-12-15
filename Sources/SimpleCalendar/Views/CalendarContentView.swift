@@ -79,8 +79,12 @@ struct CalendarContentView: View {
                 .padding(.leading, leadingPadding)
             }
             .dropDestination(for: DraggableEventTransfer.self) { items, location in
-                handleDrop(items: items, location: location, in: geo)
+                print("🔥 dropDestination closure called with \(items.count) items")
+                let result = handleDrop(items: items, location: location, in: geo)
+                print("🔥 dropDestination returning: \(result)")
+                return result
             } isTargeted: { isTargeted in
+                print("🔥 isTargeted changed to: \(isTargeted)")
                 if !isTargeted {
                     dropTargetYPosition = nil
                     dropTargetTime = nil
@@ -93,11 +97,25 @@ struct CalendarContentView: View {
     }
 
     private func handleDrop(items: [DraggableEventTransfer], location: CGPoint, in geometry: GeometryProxy) -> Bool {
-        guard let droppedItem = items.first,
-              let draggedEvent = events.first(where: { $0.id == droppedItem.eventId }),
-              let onEventMoved = onEventMoved else {
+        print("🎯 Drop handler called with \(items.count) items at location: \(location)")
+
+        guard let droppedItem = items.first else {
+            print("❌ No dropped item")
             return false
         }
+        print("✅ Dropped item: eventId=\(droppedItem.eventId)")
+
+        guard let draggedEvent = events.first(where: { $0.id == droppedItem.eventId }) else {
+            print("❌ Could not find event with id=\(droppedItem.eventId) in events array (count=\(events.count))")
+            return false
+        }
+        print("✅ Found dragged event in array")
+
+        guard let onEventMoved = onEventMoved else {
+            print("❌ No onEventMoved callback")
+            return false
+        }
+        print("✅ onEventMoved callback exists")
 
         // Adjust location for padding
         let adjustedY = location.y - 12
@@ -110,19 +128,24 @@ struct CalendarContentView: View {
             startHourOfDay: startHourOfDay,
             selectedDate: selectedDate
         ) else {
+            print("❌ Could not calculate time from Y position: \(adjustedY)")
             return false
         }
+        print("✅ Calculated new time: \(newTime)")
 
         // Snap to interval
         let snappedTime = newTime.snappedToInterval(dragGranularityMinutes)
+        print("✅ Snapped time: \(snappedTime)")
 
         // Validate drop time
         guard snappedTime.isValidDropTime(
             startHourOfDay: startHourOfDay,
             eventDuration: droppedItem.duration
         ) else {
+            print("❌ Invalid drop time")
             return false
         }
+        print("✅ Valid drop time, calling callback")
 
         // Call the callback
         onEventMoved(draggedEvent, snappedTime)

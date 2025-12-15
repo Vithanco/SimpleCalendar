@@ -53,25 +53,31 @@ struct EventView: View {
         }
         .opacity(isDragging ? 0.3 : 1.0)
         .if(isDraggable) { view in
-            view.draggable(DraggableEventTransfer(
-                eventId: event.id,
-                originalStartDate: event.startDate,
-                duration: event.calendarActivity.duration
-            )) {
-                content
-                    .opacity(0.8)
-            }
-            .onContinuousHover { phase in
-                switch phase {
-                case .active:
-                    isHovering = true
-                case .ended:
-                    isHovering = false
+            view
+                .onContinuousHover { phase in
+                    switch phase {
+                    case .active:
+                        isHovering = true
+                    case .ended:
+                        isHovering = false
+                    }
                 }
-            }
+                .draggable(makeDraggableTransfer()) {
+                    content
+                        .opacity(0.8)
+                }
         }
     }
-    
+
+    private func makeDraggableTransfer() -> DraggableEventTransfer {
+        onDragStart()
+        return DraggableEventTransfer(
+            eventId: event.id,
+            originalStartDate: event.startDate,
+            duration: event.calendarActivity.duration
+        )
+    }
+
     private var content: some View {
         let mainColor = event.calendarActivity.activityType.color
         let endDate = event.endDate
