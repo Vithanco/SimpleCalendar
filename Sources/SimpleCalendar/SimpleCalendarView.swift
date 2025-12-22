@@ -217,6 +217,10 @@ public struct SimpleCalendarView: View {
         .onChange(of: selectedDate) { _ in
             updateContent()
         }
+        .task(id: events.map { "\($0.id):\($0.startDate.timeIntervalSince1970)" }.joined(separator: ",")) {
+            // This will trigger whenever the events array changes (different events, different times, etc.)
+            updateContent()
+        }
         .onAppear {
             updateContent()
         }
