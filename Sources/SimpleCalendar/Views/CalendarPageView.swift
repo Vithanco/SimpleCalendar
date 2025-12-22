@@ -15,33 +15,30 @@ struct CalendarPageView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: hourSpacing) {
             ForEach(hours, id: \.self) { hour in
-                HStack(alignment: .top, spacing: 4) {
-                    // Hour label
+                HStack(alignment: .top, spacing: 0) {
+                    // Hour label - aligned to top with small offset
                     Text(hour)
                         .font(Font.caption)
                         .minimumScaleFactor(0.7)
                         .frame(width: 35, alignment: .trailing)
                         .foregroundColor(.secondary)
                         .dynamicTypeSize(.small ... .large)
-                        .offset(y: -6) // Align with the hour line
+                        .offset(y: -6) // Move up to align with hour line
+                        .padding(.trailing, 4)
 
                     // Tick mark and divider
-                    VStack(spacing: 0) {
-                        // Hour tick mark - visible horizontal line
-                        Rectangle()
-                            .fill(Color.secondary)
-                            .frame(width: 10, height: 2)
+                    ZStack(alignment: .topLeading) {
+                        // Full-width divider (very light, for reference only)
+                        Divider()
+                            .foregroundColor(.secondary.opacity(0.15))
+                            .frame(height: hourHeight)
 
-                        // Spacer to fill the rest of the hour height
-                        Spacer()
-                            .frame(maxHeight: .infinity)
+                        // Prominent tick mark at the top - this marks the exact hour
+                        Rectangle()
+                            .fill(Color.primary.opacity(0.5))
+                            .frame(width: 20, height: 2)
                     }
                     .frame(height: hourHeight)
-
-                    // Full-width divider
-                    Divider()
-                        .foregroundColor(.secondary.opacity(0.3))
-                        .frame(height: hourHeight)
                 }
             }
         }
