@@ -13,32 +13,31 @@ struct CalendarPageView: View {
     @Binding var hourHeight: Double
 
     var body: some View {
-        VStack(alignment: .leading, spacing: hourSpacing) {
+        VStack(alignment: .leading, spacing: 0) {
             ForEach(hours, id: \.self) { hour in
                 HStack(alignment: .top, spacing: 0) {
-                    // Hour label - aligned to top with small offset
+                    // Hour label - positioned at top, no offset
                     Text(hour)
                         .font(Font.caption)
                         .minimumScaleFactor(0.7)
                         .frame(width: 35, alignment: .trailing)
                         .foregroundColor(.secondary)
                         .dynamicTypeSize(.small ... .large)
-                        .offset(y: -6) // Move up to align with hour line
                         .padding(.trailing, 4)
 
-                    // Tick mark and divider
+                    // Tick mark and divider - full height including spacing
                     ZStack(alignment: .topLeading) {
                         // Full-width divider (very light, for reference only)
                         Divider()
                             .foregroundColor(.secondary.opacity(0.15))
-                            .frame(height: hourHeight)
+                            .frame(height: hourHeight + hourSpacing)
 
                         // Prominent tick mark at the top - this marks the exact hour
                         Rectangle()
                             .fill(Color.primary.opacity(0.5))
                             .frame(width: 20, height: 2)
                     }
-                    .frame(height: hourHeight)
+                    .frame(height: hourHeight + hourSpacing)
                 }
             }
         }
