@@ -15,7 +15,7 @@ struct CalendarPageView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: hourSpacing) {
             ForEach(hours, id: \.self) { hour in
-                HStack(alignment: .top, spacing: 4) {
+                HStack(alignment: .top, spacing: 0) {
                     Text(hour)
                         .font(Font.caption)
                         .minimumScaleFactor(0.7)
@@ -24,18 +24,16 @@ struct CalendarPageView: View {
                         .dynamicTypeSize(.small ... .large)
                         .offset(y: -6) // Align label with the tick mark
 
-                    VStack(spacing: 0) {
-                        // Hour tick mark
-                        Rectangle()
-                            .fill(Color.secondary.opacity(0.9))
-                            .frame(width: 8, height: 1)
+                    // Hour tick mark - visible horizontal line
+                    Rectangle()
+                        .fill(Color.secondary)
+                        .frame(width: 10, height: 2)
+                        .padding(.leading, 4)
 
-                        // Full-width divider
-                        Divider()
-                            .foregroundColor(.secondary.opacity(0.9))
-                            .padding(.leading, -8)
-                    }
-                    .frame(height: hourHeight, alignment: .top)
+                    // Full-width divider
+                    Divider()
+                        .foregroundColor(.secondary.opacity(0.3))
+                        .frame(height: hourHeight)
                 }
             }
         }
