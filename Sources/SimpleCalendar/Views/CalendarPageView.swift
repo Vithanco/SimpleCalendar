@@ -15,17 +15,25 @@ struct CalendarPageView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: hourSpacing) {
             ForEach(hours, id: \.self) { hour in
-                HStack {
+                HStack(alignment: .top, spacing: 0) {
                     Text(hour)
                         .font(Font.caption)
                         .minimumScaleFactor(0.7)
-                        .frame(width: 35, height: hourHeight, alignment: .trailing)
+                        .frame(width: 35, alignment: .trailing)
                         .foregroundColor(.secondary)
                         .dynamicTypeSize(.small ... .large)
-                    VStack {
-                        Divider()
-                            .foregroundColor(.secondary.opacity(0.9))
-                    }
+                        .offset(y: -6) // Align label with the tick mark
+
+                    // Hour tick mark - visible horizontal line
+                    Rectangle()
+                        .fill(Color.secondary)
+                        .frame(width: 10, height: 2)
+                        .padding(.leading, 4)
+
+                    // Full-width divider
+                    Divider()
+                        .foregroundColor(.secondary.opacity(0.3))
+                        .frame(height: hourHeight)
                 }
             }
         }

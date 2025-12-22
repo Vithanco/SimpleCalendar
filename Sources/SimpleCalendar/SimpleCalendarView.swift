@@ -78,10 +78,15 @@ public struct SimpleCalendarView: View {
     @State private var visibleEvents: [any CalendarEventRepresentable]
     @State private var hourHeight: Double
     @State private var hourSpacing: Double
+    @State private var draggedEventId: String?
+    @State private var dropTargetTime: Date?
 
     private let startHourOfDay: Int
     private let selectionAction: SelectionAction
     private let dateSelectionStyle: DateSelectionStyle
+    private let draggablePredicate: ((any CalendarEventRepresentable) -> Bool)?
+    private let onEventMoved: ((any CalendarEventRepresentable, Date) -> Void)?
+    private let dragGranularityMinutes: Int
 
     /// Simple Calendar should be initialised with events. The remaining have a default value.
     /// - Parameters:
@@ -92,6 +97,9 @@ public struct SimpleCalendarView: View {
     ///   - hourHeight: The height for each hour label.  Defaults to `25.0`
     ///   - hourSpacing: The vstack spacing between each hour label. Defaults to `24.0`
     ///   - startHourOfDay: The first hour of the day to show. Defaults to `6` as 6 in the morning / 6 am
+    ///   - draggablePredicate: Optional predicate to determine which events are draggable. If nil, no events are draggable.
+    ///   - onEventMoved: Callback invoked when an event is successfully moved to a new time. Receives the event and new start date.
+    ///   - dragGranularityMinutes: The time interval (in minutes) to snap dragged events to. Defaults to 15 minutes.
     public init(
         events: Binding<[any CalendarEventRepresentable]>,
         selectedDate: Binding<Date>,
@@ -99,7 +107,10 @@ public struct SimpleCalendarView: View {
         dateSelectionStyle: DateSelectionStyle = .datePicker,
         hourHeight: Double = 25.0,
         hourSpacing: Double = 24.0,
-        startHourOfDay: Int = 6
+        startHourOfDay: Int = 6,
+        draggablePredicate: ((any CalendarEventRepresentable) -> Bool)? = nil,
+        onEventMoved: ((any CalendarEventRepresentable, Date) -> Void)? = nil,
+        dragGranularityMinutes: Int = 15
     ) {
         _events = events
         _selectedDate = selectedDate
@@ -110,6 +121,9 @@ public struct SimpleCalendarView: View {
         self.startHourOfDay = startHourOfDay
         self.selectionAction = selectionAction
         self.dateSelectionStyle = dateSelectionStyle
+        self.draggablePredicate = draggablePredicate
+        self.onEventMoved = onEventMoved
+        self.dragGranularityMinutes = dragGranularityMinutes
     }
 
     private var hours: [String] {
@@ -168,7 +182,16 @@ public struct SimpleCalendarView: View {
 
                 CalendarContentView(
                     events: $visibleEvents,
-                    selectionAction: selectionAction
+                    selectionAction: selectionAction,
+                    selectedDate: selectedDate,
+                    hourHeight: hourHeight,
+                    hourSpacing: hourSpacing,
+                    startHourOfDay: startHourOfDay,
+                    draggablePredicate: draggablePredicate,
+                    onEventMoved: onEventMoved,
+                    dragGranularityMinutes: dragGranularityMinutes,
+                    draggedEventId: $draggedEventId,
+                    dropTargetTime: $dropTargetTime
                 )
             }
             .toolbar {
@@ -192,6 +215,10 @@ public struct SimpleCalendarView: View {
             }
         }
         .onChange(of: selectedDate) { _ in
+            updateContent()
+        }
+        .task(id: events.map { "\($0.id):\($0.startDate.timeIntervalSince1970)" }.joined(separator: ",")) {
+            // This will trigger whenever the events array changes (different events, different times, etc.)
             updateContent()
         }
         .onAppear {

@@ -10,9 +10,14 @@ import SwiftUI
 struct EventView: View {
     let event: any CalendarEventRepresentable
     let selectionAction: SelectionAction
-    
+    let isDraggable: Bool
+    let isDragging: Bool
+    let onDragStart: () -> Void
+    let onDragEnd: () -> Void
+
     // For opening Event details
     @State private var showEventSheet = false
+    @State private var isHovering = false
     
     var body: some View {
         VStack {
@@ -46,8 +51,33 @@ struct EventView: View {
                     }
             }
         }
+        .opacity(isDragging ? 0.3 : 1.0)
+        .if(isDraggable) { view in
+            view
+                .onContinuousHover { phase in
+                    switch phase {
+                    case .active:
+                        isHovering = true
+                    case .ended:
+                        isHovering = false
+                    }
+                }
+                .draggable(makeDraggableTransfer()) {
+                    content
+                        .opacity(0.8)
+                }
+        }
     }
-    
+
+    private func makeDraggableTransfer() -> DraggableEventTransfer {
+        onDragStart()
+        return DraggableEventTransfer(
+            eventId: event.id,
+            originalStartDate: event.startDate,
+            duration: event.calendarActivity.duration
+        )
+    }
+
     private var content: some View {
         let mainColor = event.calendarActivity.activityType.color
         let endDate = event.endDate
@@ -137,13 +167,25 @@ struct EventView: View {
         .foregroundColor(.primary)
         .overlay {
             RoundedRectangle(cornerRadius: 6)
-                .stroke(mainColor, lineWidth: 1)
+                .stroke(mainColor, lineWidth: isDraggable && isHovering ? 2 : 1)
                 .frame(maxHeight: .infinity)
         }
         .mask(
             RoundedRectangle(cornerRadius: 6)
                 .frame(maxHeight: .infinity)
         )
+    }
+}
+
+// Helper extension for conditional view modifiers
+extension View {
+    @ViewBuilder
+    func `if`<Transform: View>(_ condition: Bool, transform: (Self) -> Transform) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
     }
 }
 //
