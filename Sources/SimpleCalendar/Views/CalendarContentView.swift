@@ -45,7 +45,6 @@ struct CalendarContentView: View {
                         }
                         .frame(width: width - boxSpacing, height: previewHeight)
                         .offset(x: 0, y: dropTargetYPosition)
-                        .padding(.top, 12)
                         .padding(.leading, leadingPadding)
                 }
 
@@ -75,7 +74,6 @@ struct CalendarContentView: View {
                     .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 5)
                     .frame(width: boxWidth, height: event.coordinates?.height ?? 20)
                 }
-                .padding(.top, 12)
                 .padding(.leading, leadingPadding)
             }
             .dropDestination(for: DraggableEventTransfer.self) { items, location in
@@ -117,18 +115,15 @@ struct CalendarContentView: View {
         }
         print("✅ onEventMoved callback exists")
 
-        // Adjust location for padding
-        let adjustedY = location.y - 12
-
         // Calculate the new time from Y position
         guard let newTime = Date.fromYPosition(
-            adjustedY,
+            location.y,
             hourHeight: hourHeight,
             hourSpacing: hourSpacing,
             startHourOfDay: startHourOfDay,
             selectedDate: selectedDate
         ) else {
-            print("❌ Could not calculate time from Y position: \(adjustedY)")
+            print("❌ Could not calculate time from Y position: \(location.y)")
             return false
         }
         print("✅ Calculated new time: \(newTime)")
