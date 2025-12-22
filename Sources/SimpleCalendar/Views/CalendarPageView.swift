@@ -15,28 +15,28 @@ struct CalendarPageView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: hourSpacing) {
             ForEach(hours, id: \.self) { hour in
-                HStack(alignment: .top, spacing: 0) {
-                    // Hour label - positioned at top
-                    Text(hour)
-                        .font(Font.caption)
-                        .minimumScaleFactor(0.7)
-                        .frame(width: 35, height: hourHeight, alignment: .topTrailing)
-                        .foregroundColor(.secondary)
-                        .dynamicTypeSize(.small ... .large)
-                        .padding(.trailing, 4)
+                ZStack(alignment: .topLeading) {
+                    // Hour label in an HStack
+                    HStack(alignment: .top, spacing: 0) {
+                        Text(hour)
+                            .font(Font.caption)
+                            .minimumScaleFactor(0.7)
+                            .frame(width: 35, alignment: .trailing)
+                            .foregroundColor(.secondary)
+                            .dynamicTypeSize(.small ... .large)
+                            .padding(.trailing, 4)
 
-                    // Tick mark and divider
-                    ZStack(alignment: .topLeading) {
                         // Full-width divider (very light, for reference only)
                         Divider()
                             .foregroundColor(.secondary.opacity(0.15))
-
-                        // Prominent tick mark at the top - this marks the exact hour
-                        Rectangle()
-                            .fill(Color.primary.opacity(0.5))
-                            .frame(width: 20, height: 2)
                     }
                     .frame(height: hourHeight)
+
+                    // Tick mark positioned absolutely at the top, offset by label width
+                    Rectangle()
+                        .fill(Color.primary.opacity(0.5))
+                        .frame(width: 20, height: 2)
+                        .offset(x: 35 + 4, y: 0)  // Position after the label
                 }
             }
         }

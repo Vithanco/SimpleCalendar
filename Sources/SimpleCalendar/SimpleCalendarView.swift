@@ -255,17 +255,6 @@ public struct SimpleCalendarView: View {
             let secondsFromCalendarStart = calendarStartTime.timeIntervalSince(event.startDate)
             let yPosition = max(0, -secondsFromCalendarStart * heightPerSecond)
 
-            // Debug logging for alignment issues
-            if event.calendarActivity.title.contains("Review Revolution") {
-                print("🔍 Event: \(event.calendarActivity.title)")
-                print("  Start time: \(event.startDate.formatted(date: .omitted, time: .shortened))")
-                print("  Calendar start: \(calendarStartTime.formatted(date: .omitted, time: .shortened))")
-                print("  Seconds from start: \(-secondsFromCalendarStart)")
-                print("  actualHourHeight: \(actualHourHeight)")
-                print("  heightPerSecond: \(heightPerSecond)")
-                print("  Calculated Y position: \(yPosition)")
-            }
-            
             let visibleDuration: TimeInterval
             if event.startDate < calendarStartTime {
                 visibleDuration = eventEndTime.timeIntervalSince(calendarStartTime)
