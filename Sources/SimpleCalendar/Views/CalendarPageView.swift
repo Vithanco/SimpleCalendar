@@ -15,27 +15,23 @@ struct CalendarPageView: View {
         let _ = print("📄 CalendarPageView - hourHeight: \(hourHeight)")
         VStack(alignment: .leading, spacing: 0) {
             ForEach(Array(hours.enumerated()), id: \.offset) { index, hour in
-                VStack(alignment: .leading, spacing: 0) {
-                    // Thin horizontal line marking the exact hour
-                    HStack(spacing: 0) {
-                        Color.clear
-                            .frame(width: 35)
-                        Rectangle()
-                            .fill(Color.secondary.opacity(0.3))
-                            .frame(height: 1)
-                    }
-                    .background(GeometryReader { geo in
-                        Color.clear.preference(key: HourLinePositionKey.self, value: [index: geo.frame(in: .global).minY])
-                    })
-
-                    // Hour label positioned below the line
+                HStack(alignment: .top, spacing: 0) {
+                    // Hour label aligned with the hour line
                     Text(hour)
                         .font(Font.caption)
                         .minimumScaleFactor(0.7)
                         .frame(width: 35, alignment: .trailing)
                         .foregroundColor(.secondary)
                         .dynamicTypeSize(.small ... .large)
-                        .padding(.top, 2)
+                        .offset(y: -6)  // Offset to center the text with the line
+
+                    // Thin horizontal line marking the exact hour
+                    Rectangle()
+                        .fill(Color.secondary.opacity(0.3))
+                        .frame(height: 1)
+                        .background(GeometryReader { geo in
+                            Color.clear.preference(key: HourLinePositionKey.self, value: [index: geo.frame(in: .global).minY])
+                        })
                 }
                 .frame(height: hourHeight, alignment: .top)
             }
