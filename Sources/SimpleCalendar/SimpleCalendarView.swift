@@ -171,15 +171,6 @@ public struct SimpleCalendarView: View {
                     hourHeight: $hourHeight
                 )
 
-                let calendar = Calendar.current
-                if calendar.isDateInToday(selectedDate) {
-                    CalendarTimelineView(
-                        startHourOfDay: startHourOfDay,
-                        hourSpacing: $hourSpacing,
-                        hourHeight: $hourHeight
-                    )
-                }
-
                 CalendarContentView(
                     events: $visibleEvents,
                     selectionAction: selectionAction,
@@ -193,6 +184,16 @@ public struct SimpleCalendarView: View {
                     draggedEventId: $draggedEventId,
                     dropTargetTime: $dropTargetTime
                 )
+
+                // Timeline on top so it's always visible
+                let calendar = Calendar.current
+                if calendar.isDateInToday(selectedDate) {
+                    CalendarTimelineView(
+                        startHourOfDay: startHourOfDay,
+                        hourSpacing: $hourSpacing,
+                        hourHeight: $hourHeight
+                    )
+                }
             }
             .toolbar {
                 ToolbarItem(placement: placement) {
