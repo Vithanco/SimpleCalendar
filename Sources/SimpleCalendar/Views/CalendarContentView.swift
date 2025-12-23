@@ -52,6 +52,14 @@ struct CalendarContentView: View {
                     let boxWidth = (width / Double(event.columnCount + 1)) - boxSpacing
                     let isDraggable = draggablePredicate?(event) ?? false
                     let isDragging = draggedEventId == event.id
+                    let eventYOffset = event.coordinates?.minY ?? 0
+                    let eventHeight = max(event.coordinates?.height ?? 20, 16)
+
+                    let _ = {
+                        if event.calendarActivity.title.contains("Review Revolution") {
+                            print("🎪 Event '\(event.calendarActivity.title)' - Y offset: \(eventYOffset), height: \(eventHeight)")
+                        }
+                    }()
 
                     EventView(
                         event: event,
@@ -69,9 +77,9 @@ struct CalendarContentView: View {
                             draggedEventDuration = nil
                         }
                     )
-                    .offset(CGSize(width: boxWidth * Double(event.column) + (boxSpacing * Double(event.column)), height: (event.coordinates?.minY ?? 0)))
+                    .offset(CGSize(width: boxWidth * Double(event.column) + (boxSpacing * Double(event.column)), height: eventYOffset))
                     .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 5)
-                    .frame(width: boxWidth, height: max(event.coordinates?.height ?? 20, 16))
+                    .frame(width: boxWidth, height: eventHeight)
                 }
                 .padding(.leading, leadingPadding)
             }

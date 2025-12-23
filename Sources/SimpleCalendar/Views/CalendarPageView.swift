@@ -24,6 +24,9 @@ struct CalendarPageView: View {
                             .fill(Color.secondary.opacity(0.3))
                             .frame(height: 1)
                     }
+                    .background(GeometryReader { geo in
+                        Color.clear.preference(key: HourLinePositionKey.self, value: [index: geo.frame(in: .global).minY])
+                    })
 
                     // Hour label positioned below the line
                     Text(hour)
@@ -38,6 +41,18 @@ struct CalendarPageView: View {
             }
         }
         .padding(.horizontal, 16)
+        .onPreferenceChange(HourLinePositionKey.self) { positions in
+            if let first = positions[0], let second = positions[1], let third = positions[2] {
+                print("🎯 Hour line positions - [0]: \(first), [1]: \(second), [2]: \(third), diff: \(second - first)")
+            }
+        }
+    }
+}
+
+private struct HourLinePositionKey: PreferenceKey {
+    static let defaultValue: [Int: CGFloat] = [:]
+    static func reduce(value: inout [Int: CGFloat], nextValue: () -> [Int: CGFloat]) {
+        value.merge(nextValue(), uniquingKeysWith: { $1 })
     }
 }
 
