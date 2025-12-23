@@ -81,88 +81,35 @@ struct EventView: View {
     private var content: some View {
         let mainColor = event.calendarActivity.activityType.color
         let endDate = event.endDate
-        
-        return VStack {
-            VStack(alignment: .leading) {
-                if (event.visibleDuration / 60) <= 15 {
-                    if event.columnCount > 0 {
-                        HStack(alignment: .center) {
-                            Text(event.calendarActivity.title)
-                                .foregroundColor(mainColor)
-                                .font(.caption)
-                                .padding(.top, 4)
-                                .fontWeight(.semibold)
-                                .dynamicTypeSize(.small ... .large)
-                            Spacer()
-                            Text("\(event.startDate.formatted(date: .omitted, time: .shortened)), \(Int(event.calendarActivity.duration / 60)) min")
-                                .foregroundColor(mainColor)
-                                .font(.caption2)
-                                .dynamicTypeSize(.small ... .large)
-                        }
-                    } else {
-                        HStack(alignment: .center) {
-                            Text(event.calendarActivity.title)
-                                .foregroundColor(mainColor)
-                                .font(.caption)
-                                .padding(.top, 4)
-                                .fontWeight(.semibold)
-                                .dynamicTypeSize(.small ... .large)
-                            Spacer()
-                            Text("\(event.startDate.formatted(date: .omitted, time: .shortened)) - \(endDate.formatted(date: .omitted, time: .shortened)), \(Int(event.calendarActivity.duration / 60)) min")
-                                .foregroundColor(mainColor)
-                                .font(.caption2)
-                                .dynamicTypeSize(.small ... .large)
-                        }
-                    }
-                } else if (event.visibleDuration / 60) <= 30 {
-                    Text(event.calendarActivity.title)
-                        .foregroundColor(mainColor)
-                        .font(.caption)
-                        .padding(.top, 4)
-                        .fontWeight(.semibold)
-                        .dynamicTypeSize(.small ... .large)
-                    if event.columnCount > 0 {
-                        Text("\(event.startDate.formatted(date: .omitted, time: .shortened)), \(Int(event.calendarActivity.duration / 60)) min")
-                            .foregroundColor(mainColor)
-                            .font(.caption2)
-                            .dynamicTypeSize(.small ... .large)
-                    } else {
-                        Text("\(event.startDate.formatted(date: .omitted, time: .shortened)) - \(endDate.formatted(date: .omitted, time: .shortened)), \(Int(event.calendarActivity.duration / 60)) min")
-                            .foregroundColor(mainColor)
-                            .font(.caption2)
-                            .dynamicTypeSize(.small ... .large)
-                    }
-                } else {
-                    Text(event.calendarActivity.title)
-                        .foregroundColor(mainColor)
-                        .font(.caption)
-                        .padding(.top, 4)
-                        .fontWeight(.semibold)
-                        .dynamicTypeSize(.small ... .large)
-                    Text("\(event.startDate.formatted(date: .omitted, time: .shortened)) - \(endDate.formatted(date: .omitted, time: .shortened))")
-                        .foregroundColor(mainColor)
-                        .font(.caption2)
-                        .dynamicTypeSize(.small ... .large)
-                    Text("Duration: \(Int(event.calendarActivity.duration / 60)) min")
-                        .foregroundColor(mainColor)
-                        .font(.caption2)
-                        .dynamicTypeSize(.small ... .large)
-                }
-                Spacer()
-            }
-            .padding(.horizontal, 8)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-            .background(.ultraThinMaterial)
-            .background(mainColor.opacity(0.30), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
-            .overlay {
-                HStack {
-                    Rectangle()
-                        .fill(mainColor)
-                        .frame(maxHeight: .infinity, alignment: .leading)
-                        .frame(width: 4)
-                    Spacer()
-                }
-            }
+
+        return HStack(alignment: .center, spacing: 4) {
+            // Title on left - takes available space
+            Text(event.calendarActivity.title)
+                .foregroundColor(mainColor)
+                .font(.caption)
+                .fontWeight(.semibold)
+                .lineLimit(1)
+                .truncationMode(.tail)
+                .dynamicTypeSize(.small ... .large)
+
+            Spacer(minLength: 4)
+
+            // Time info on right - always visible
+            Text("\(event.startDate.formatted(date: .omitted, time: .shortened)) - \(endDate.formatted(date: .omitted, time: .shortened)), \(Int(event.calendarActivity.duration / 60)) min")
+                .foregroundColor(mainColor)
+                .font(.caption2)
+                .dynamicTypeSize(.small ... .large)
+                .lineLimit(1)
+        }
+        .padding(.horizontal, 6)
+        .padding(.vertical, 3)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        .background(.ultraThinMaterial)
+        .background(mainColor.opacity(0.30), in: RoundedRectangle(cornerRadius: 6, style: .continuous))
+        .overlay(alignment: .leading) {
+            Rectangle()
+                .fill(mainColor)
+                .frame(width: 3)
         }
         .foregroundColor(.primary)
         .overlay {

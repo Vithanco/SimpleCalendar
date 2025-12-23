@@ -9,20 +9,17 @@ extension Date {
     /// Calculate a date/time from a Y position in the calendar view
     /// - Parameters:
     ///   - yPosition: The Y position in the calendar view
-    ///   - hourHeight: The height of each hour block
-    ///   - hourSpacing: The spacing between hour blocks
+    ///   - hourHeight: The height in pixels for each hour block
     ///   - startHourOfDay: The first hour shown in the calendar
     ///   - selectedDate: The currently selected date
     /// - Returns: The calculated date at the given Y position, or nil if invalid
     static func fromYPosition(
         _ yPosition: Double,
         hourHeight: Double,
-        hourSpacing: Double,
         startHourOfDay: Int,
         selectedDate: Date
     ) -> Date? {
-        let actualHourHeight = hourHeight + hourSpacing
-        let heightPerSecond = (actualHourHeight / 60) / 60
+        let heightPerSecond = (hourHeight / 60) / 60
 
         // Calculate seconds from start of calendar view
         let secondsFromStart = yPosition / heightPerSecond

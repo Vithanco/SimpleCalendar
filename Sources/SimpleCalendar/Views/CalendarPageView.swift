@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CalendarPageView: View {
     let hours: [String]
-    @Binding var hourSpacing: Double
     @Binding var hourHeight: Double
 
     var body: some View {
@@ -34,7 +33,7 @@ struct CalendarPageView: View {
                         .dynamicTypeSize(.small ... .large)
                         .padding(.top, 2)
                 }
-                .frame(height: hourHeight + hourSpacing, alignment: .top)
+                .frame(height: hourHeight, alignment: .top)
             }
         }
         .padding(.horizontal, 16)

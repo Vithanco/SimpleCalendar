@@ -77,7 +77,6 @@ public struct SimpleCalendarView: View {
 
     @State private var visibleEvents: [any CalendarEventRepresentable]
     @State private var hourHeight: Double
-    @State private var hourSpacing: Double
     @State private var draggedEventId: String?
     @State private var dropTargetTime: Date?
 
@@ -94,8 +93,7 @@ public struct SimpleCalendarView: View {
     ///   - selectedDate: The date the calendar show show, defaults to todays date
     ///   - selectionAction: The action the calendar should perform when a user selects an event. Defaults to `.sheet`
     ///   - dateSelectionStyle: The type of date selection in the toolbar, default is `.datePicker`
-    ///   - hourHeight: The height for each hour label.  Defaults to `25.0`
-    ///   - hourSpacing: The vstack spacing between each hour label. Defaults to `24.0`
+    ///   - hourHeight: The height in pixels for each hour block. Defaults to `48.0`
     ///   - startHourOfDay: The first hour of the day to show. Defaults to `6` as 6 in the morning / 6 am
     ///   - draggablePredicate: Optional predicate to determine which events are draggable. If nil, no events are draggable.
     ///   - onEventMoved: Callback invoked when an event is successfully moved to a new time. Receives the event and new start date.
@@ -105,8 +103,7 @@ public struct SimpleCalendarView: View {
         selectedDate: Binding<Date>,
         selectionAction: SelectionAction = .sheet,
         dateSelectionStyle: DateSelectionStyle = .datePicker,
-        hourHeight: Double = 25.0,
-        hourSpacing: Double = 24.0,
+        hourHeight: Double = 48.0,
         startHourOfDay: Int = 6,
         draggablePredicate: ((any CalendarEventRepresentable) -> Bool)? = nil,
         onEventMoved: ((any CalendarEventRepresentable, Date) -> Void)? = nil,
@@ -116,7 +113,6 @@ public struct SimpleCalendarView: View {
         _selectedDate = selectedDate
         _visibleEvents = State(initialValue: events.wrappedValue)
         _hourHeight = State(initialValue: hourHeight)
-        _hourSpacing = State(initialValue: hourSpacing)
 
         self.startHourOfDay = startHourOfDay
         self.selectionAction = selectionAction
@@ -167,7 +163,6 @@ public struct SimpleCalendarView: View {
             ZStack {
                 CalendarPageView(
                     hours: hours,
-                    hourSpacing: $hourSpacing,
                     hourHeight: $hourHeight
                 )
 
@@ -176,7 +171,6 @@ public struct SimpleCalendarView: View {
                     selectionAction: selectionAction,
                     selectedDate: selectedDate,
                     hourHeight: hourHeight,
-                    hourSpacing: hourSpacing,
                     startHourOfDay: startHourOfDay,
                     draggablePredicate: draggablePredicate,
                     onEventMoved: onEventMoved,
@@ -190,7 +184,6 @@ public struct SimpleCalendarView: View {
                 if calendar.isDateInToday(selectedDate) {
                     CalendarTimelineView(
                         startHourOfDay: startHourOfDay,
-                        hourSpacing: $hourSpacing,
                         hourHeight: $hourHeight
                     )
                 }
@@ -240,8 +233,7 @@ public struct SimpleCalendarView: View {
     private func calculateCoordinates(forEvents events: [any CalendarEventRepresentable]) {
         var eventList: [any CalendarEventRepresentable] = []
         var pos: [EventPositions] = []
-        let actualHourHeight = hourHeight + hourSpacing
-        let heightPerSecond = (actualHourHeight / 60) / 60
+        let heightPerSecond = (hourHeight / 60) / 60
         
         // Go over each event and check if there is another event ongoing at the same time
         events.forEach { event in
@@ -297,8 +289,7 @@ public struct SimpleCalendarView: View {
     private func calculateOffset(event: CalendarEvent) -> Double {
         guard let startHour = event.startDate.hour, let dateHour = Date().atHour(startHour) else { return 0 }
 
-        let actualHourHeight = hourHeight + hourSpacing
-        let heightPerSecond = (actualHourHeight / 60) / 60
+        let heightPerSecond = (hourHeight / 60) / 60
         let secondsSinceStartOfDay = abs(Date().atHour(0)?.timeIntervalSince(dateHour) ?? 0)
         return secondsSinceStartOfDay * heightPerSecond
     }

@@ -10,7 +10,6 @@ struct CalendarContentView: View {
     let selectionAction: SelectionAction
     let selectedDate: Date
     let hourHeight: Double
-    let hourSpacing: Double
     let startHourOfDay: Int
     let draggablePredicate: ((any CalendarEventRepresentable) -> Bool)?
     let onEventMoved: ((any CalendarEventRepresentable, Date) -> Void)?
@@ -32,8 +31,7 @@ struct CalendarContentView: View {
                 // Drop target preview
                 if let dropTargetYPosition = dropTargetYPosition,
                    let draggedEventDuration = draggedEventDuration {
-                    let actualHourHeight = hourHeight + hourSpacing
-                    let heightPerSecond = (actualHourHeight / 60) / 60
+                    let heightPerSecond = (hourHeight / 60) / 60
                     let previewHeight = draggedEventDuration * heightPerSecond
 
                     Rectangle()
@@ -72,7 +70,7 @@ struct CalendarContentView: View {
                     )
                     .offset(CGSize(width: boxWidth * Double(event.column) + (boxSpacing * Double(event.column)), height: (event.coordinates?.minY ?? 0)))
                     .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 5)
-                    .frame(width: boxWidth, height: event.coordinates?.height ?? 20)
+                    .frame(width: boxWidth, height: max(event.coordinates?.height ?? 20, 16))
                 }
                 .padding(.leading, leadingPadding)
             }
@@ -119,7 +117,6 @@ struct CalendarContentView: View {
         guard let newTime = Date.fromYPosition(
             location.y,
             hourHeight: hourHeight,
-            hourSpacing: hourSpacing,
             startHourOfDay: startHourOfDay,
             selectedDate: selectedDate
         ) else {

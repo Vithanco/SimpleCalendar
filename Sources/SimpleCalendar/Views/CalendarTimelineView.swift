@@ -8,7 +8,6 @@ import Combine
 
 struct CalendarTimelineView: View {
     let startHourOfDay: Int
-    @Binding var hourSpacing: Double
     @Binding var hourHeight: Double
     @State private var timelineOffset: Double = 0
 
@@ -35,8 +34,7 @@ struct CalendarTimelineView: View {
     }
 
     func calculateOffset() {
-        let actualHourHeight = hourHeight + hourSpacing
-        let heightPerSecond = (actualHourHeight / 60) / 60
+        let heightPerSecond = (hourHeight / 60) / 60
         let secondsSinceStartOfDay = abs(Date().atHour(startHourOfDay)?.timeIntervalSinceNow ?? 0)
         timelineOffset = secondsSinceStartOfDay * heightPerSecond
     }
