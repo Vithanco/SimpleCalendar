@@ -37,6 +37,7 @@ struct CalendarTimelineView: View {
         let heightPerSecond = (hourHeight / 60) / 60
         let secondsSinceStartOfDay = abs(Date().atHour(startHourOfDay)?.timeIntervalSinceNow ?? 0)
         timelineOffset = secondsSinceStartOfDay * heightPerSecond
+        print("⏰ CalendarTimelineView - hourHeight: \(hourHeight), heightPerSecond: \(heightPerSecond), secondsSinceStartOfDay: \(secondsSinceStartOfDay), timelineOffset: \(timelineOffset)")
     }
 }
 //

@@ -234,7 +234,9 @@ public struct SimpleCalendarView: View {
         var eventList: [any CalendarEventRepresentable] = []
         var pos: [EventPositions] = []
         let heightPerSecond = (hourHeight / 60) / 60
-        
+
+        print("📊 calculateCoordinates - hourHeight: \(hourHeight), heightPerSecond: \(heightPerSecond)")
+
         // Go over each event and check if there is another event ongoing at the same time
         events.forEach { event in
             let activity = event.calendarActivity
@@ -247,6 +249,13 @@ public struct SimpleCalendarView: View {
             }
             let secondsFromCalendarStart = calendarStartTime.timeIntervalSince(event.startDate)
             let yPosition = max(0, -secondsFromCalendarStart * heightPerSecond)
+
+            // Debug logging for first few events
+            if eventList.count < 3 {
+                let formatter = DateFormatter()
+                formatter.timeStyle = .short
+                print("📍 Event '\(activity.title)' - Start: \(formatter.string(from: event.startDate)), secondsFromStart: \(secondsFromCalendarStart), yPosition: \(yPosition)")
+            }
 
             let visibleDuration: TimeInterval
             if event.startDate < calendarStartTime {

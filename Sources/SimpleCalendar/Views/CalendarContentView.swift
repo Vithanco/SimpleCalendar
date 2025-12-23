@@ -24,6 +24,7 @@ struct CalendarContentView: View {
     @State private var draggedEventDuration: Double?
 
     public var body: some View {
+        let _ = print("📦 CalendarContentView - hourHeight: \(hourHeight)")
         GeometryReader { geo in
             let width = (geo.size.width - leadingPadding)
 

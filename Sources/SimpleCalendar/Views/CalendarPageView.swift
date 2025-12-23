@@ -12,6 +12,7 @@ struct CalendarPageView: View {
     @Binding var hourHeight: Double
 
     var body: some View {
+        let _ = print("📄 CalendarPageView - hourHeight: \(hourHeight)")
         VStack(alignment: .leading, spacing: 0) {
             ForEach(Array(hours.enumerated()), id: \.offset) { index, hour in
                 VStack(alignment: .leading, spacing: 0) {
