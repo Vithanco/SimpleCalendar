@@ -24,7 +24,6 @@ struct CalendarContentView: View {
     @State private var draggedEventDuration: Double?
 
     public var body: some View {
-        let _ = print("📦 CalendarContentView - hourHeight: \(hourHeight)")
         GeometryReader { geo in
             let width = (geo.size.width - leadingPadding)
 
@@ -54,12 +53,6 @@ struct CalendarContentView: View {
                     let isDragging = draggedEventId == event.id
                     let eventYOffset = event.coordinates?.minY ?? 0
                     let eventHeight = max(event.coordinates?.height ?? 20, 16)
-
-                    let _ = {
-                        if event.calendarActivity.title.contains("Review Revolution") {
-                            print("🎪 Event '\(event.calendarActivity.title)' - Y offset: \(eventYOffset), height: \(eventHeight)")
-                        }
-                    }()
 
                     EventView(
                         event: event,
